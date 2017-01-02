@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Google Map</title>
+    <meta name="viewport" content="initial-scale=1.0">
+    <meta charset="utf-8">
+    <style>
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      #map {
+        height: 100%;
+      }
+      /* Optional: Makes the sample page fill the window. */
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="map"></div>
+    <script>
+      var bars =[
+        {bar:'Base Camp',lat:30.267432425314624, lng:-97.74409191804413},
+        {bar:'Riley\'s Irish Pub',lat:30.267666689956158, lng:-97.74116635322571},
+        {bar:'Big Daddy\'s Burgers',lat:30.37328395, lng:-97.728165},
+        {bar:'Billy\'s On Burnet',lat:30.32203708861338, lng:-97.73982157878069},
+        {bar:'Black Sheep Lodge',lat:30.248265811215493, lng:-97.77109980583191},
+        {bar:'Cover 3',lat:30.358584, lng:-97.73502612},
+        {bar:'Delaney\'s Icehouse',lat:30.36036034006142, lng:-97.74038917417668},
+        {bar:'Haymaker',lat: 30.284598341428932, lng:-97.71745559823815},
+        {bar:'Hotel Ella',lat:30.283084573128505, lng:-97.74549007415771},
+        {bar:'Little Woodrow\'s',lat:30.269706334647054, lng:-97.748139695899},
+        {bar:'Mister Tramps Sports Pub and Café',lat:30.3614382, lng:-97.7162305},
+        {bar:'Pluckers Wing Bar',lat:30.28623456373817, lng:-97.74523258209229},
+        {bar:'Posse East',lat:30.291343, lng:-97.734723},
+        {bar:'Rattle Inn',lat:30.270205618535314, lng:-97.7484405040741},
+        {bar:'Recess Arcade Bar',lat:30.267548764105634, lng:-97.74052709524396},
+        {bar:'San Jac Saloon',lat:30.2674478106201, lng:-97.7402220480144},
+        {bar:'Scholz Garten',lat:30.277729356996453, lng:-97.73619890213011},
+        {bar:'Shiner\'s Saloon',lat:30.266920751379743, lng:-97.74341404438019},
+        {bar:'Shoal Creek Saloon',lat:30.274259, lng:-97.75237352},
+        {bar:'St Roch\'s Bar',lat:30.258534933333333, lng:-97.71468871666667},
+        {bar:'Star Bar',lat:30.269986132227064, lng:-97.74848453699884},
+        {bar:'Tap 24',lat:30.28839, lng:-97.74823},
+        {bar:'The Tavern',lat:30.277034051619175, lng:-97.75120618825488},
+        {bar:'Thirsty Nickel',lat:30.26707827925303, lng:-97.73955166339874},
+        {bar:'Warehouse Billiard Bar',lat:30.218472320295703, lng:-97.7576897650839},
+        {bar:'The Park on South Lamar',lat:30.235915274427526, lng:-97.79449939727783}
+      ];
+      var markers = [];
+            var map;
+      function initMap() {
+        var austin = {lat: 30.2972,lng: -97.7431}
+        map = new google.maps.Map(document.getElementById('map'), {
+          center: austin,
+          zoom: 12
+        });
+        var infoWindow = new google.maps.InfoWindow({map: map});
+
+        // Try HTML5 geolocation.
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(function(position) {
+            var pos = {
+              lat: position.coords.latitude,
+              lng: position.coords.longitude
+            };
+
+            infoWindow.setPosition(pos);
+            infoWindow.setContent('You\'re here');
+            map.setCenter(pos);
+          }, function() {
+            handleLocationError(true, infoWindow, map.getCenter());
+          });
+        } else {
+          // Browser doesn't support Geolocation
+          handleLocationError(false, infoWindow, map.getCenter());
+        }
+        function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+          infoWindow.setPosition(pos);
+          infoWindow.setContent(browserHasGeolocation ?
+                              'Error: The Geolocation service failed.' :
+                              'Error: Your browser doesn\'t support geolocation.');
+
+        };
+        for(var i = 0; i<bars.length; i++) { 
+          var point = new google.maps.LatLng(bars[i].lat, bars[i].lng); 
+          var marker = new google.maps.Marker({
+            position: point,
+            map: map
+          }); 
+          markers[i] = marker;
+        }
+        var markerCluster = new MarkerClusterer(map, markers,
+        {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
+      };
+    </script>
+    <script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js">
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCehD4SuGFxhbgto3Iw5MQ7TnSDxJG6wyY&libraries=places"></script>
+    </script>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCehD4SuGFxhbgto3Iw5MQ7TnSDxJG6wyY&callback=initMap">
+    </script>
+    <script
+    src="https://code.jquery.com/jquery-3.1.1.min.js"
+    integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+    crossorigin="anonymous"></script>
+  </body>
+</html>
+
+  
